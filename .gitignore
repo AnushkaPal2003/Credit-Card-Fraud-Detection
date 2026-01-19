@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+
+
+# MLflow
+mlruns/
+mlflow.db
+#Data files
+*.csv
+
+# Virtual env
+venv/
+.env
+
+# OS
+.DS_Store
