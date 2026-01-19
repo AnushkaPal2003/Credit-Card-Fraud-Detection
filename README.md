@@ -1,31 +1,51 @@
-# Credit Card Fraud Detection
+💳 Credit Card Fraud Detection
 
-Simple **unsupervised anomaly detection** project using **Isolation Forest**.
+An end-to-end Machine Learning project for detecting fraudulent credit card transactions using unsupervised anomaly detection.
 
-## What this project does
+🚀 Live App
 
-* Detects fraudulent credit card transactions as anomalies
-* Uses **Isolation Forest** 
-* Tracks experiments with **MLflow**
-* Runs inside **Docker**
+https://credit-card-fraud-detection-balawe2klts3je3i7bnmqw.streamlit.app/
 
-## Dataset
+💻 GitHub
 
-* Kaggle Credit Card Fraud dataset
-* Fraud rate: ~0.17%
+https://github.com/AnushkaPal2003/Credit-Card-Fraud-Detection
 
-## Result
+🛠 Tech Stack
 
-```
+Python
+
+Scikit-learn (Isolation Forest)
+
+MLflow
+
+Streamlit
+
+Docker
+
+🧠 Approach
+
+Treat fraud detection as an anomaly detection problem
+
+Train Isolation Forest on normal transaction behavior
+
+Detect rare fraudulent patterns
+
+Track experiments using MLflow
+
+Deploy as a Streamlit app and Docker container
+
+🐳 Run with Docker
+docker pull anushkapal/detectfraud
+docker run -p 8501:8501 anushkapal/detectfraud
+
+
+Open: http://localhost:8501
+
+📊 Output
 True fraud ratio      : 0.00173
 Detected anomaly ratio: 0.00170
-```
 
+👩‍💻 Author
 
-Open: [http://127.0.0.1:5000](http://127.0.0.1:5000)
-
-## Tech
-
-Python | scikit-learn | MLflow | Docker
-
-**Author:** Anushka Pal
+Anushka Pal
+Aspiring Data Scientist
