@@ -41,18 +41,18 @@ y_pred = pipeline.predict(X)
 y_pred = np.where(y_pred == -1, 1, 0)  # convert to fraud=1
 
 # ================= METRICS =================
-print("\n📊 Confusion Matrix")
+print("Confusion Matrix")
 print(confusion_matrix(y_true, y_pred))
 
-print("\n📊 Classification Report")
+print("Classification Report")
 print(classification_report(y_true, y_pred, digits=4))
 
 # ================= ANOMALY RATIO =================
 detected_ratio = y_pred.mean()
 true_ratio = y_true.mean()
 
-print(f"\n🚨 True fraud ratio      : {true_ratio:.5f}")
-print(f"🚨 Detected anomaly ratio: {detected_ratio:.5f}")
+print(f"True fraud ratio      : {true_ratio:.5f}")
+print(f"Detected anomaly ratio: {detected_ratio:.5f}")
 
 # ================= SAVE MODEL =================
 with open("model.pkl", "wb") as f:
