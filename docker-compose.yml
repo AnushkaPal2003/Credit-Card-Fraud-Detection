@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  fraud-app:
+    build: .
+    container_name: fraud_detection
+    volumes:
+      - .:/app
+    command: python credit.py

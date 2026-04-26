@@ -1,51 +1,60 @@
-💳 Credit Card Fraud Detection
+# 💳 Credit Card Fraud Detection (IsolationForest + MLflow)
 
-An end-to-end Machine Learning project for detecting fraudulent credit card transactions using unsupervised anomaly detection.
+This project is an **anomaly detection system** for identifying fraudulent credit card transactions using **IsolationForest (unsupervised learning)**.  
+It also includes **MLflow tracking** and a reproducible ML pipeline.
 
-🚀 Live App
+## 🚀 Project Overview
 
-https://credit-card-fraud-detection-balawe2klts3je3i7bnmqw.streamlit.app/
-
-💻 GitHub
-
-https://github.com/AnushkaPal2003/Credit-Card-Fraud-Detection
-
-🛠 Tech Stack
-
-Python
-
-Scikit-learn (Isolation Forest)
-
-MLflow
-
-Streamlit
-
-Docker
-
-🧠 Approach
-
-Treat fraud detection as an anomaly detection problem
-
-Train Isolation Forest on normal transaction behavior
-
-Detect rare fraudulent patterns
-
-Track experiments using MLflow
-
-Deploy as a Streamlit app and Docker container
-
-🐳 Run with Docker
-docker pull anushkapal/detectfraud
-docker run -p 8501:8501 anushkapal/detectfraud
+- Detects fraudulent transactions using anomaly detection
+- Uses **IsolationForest algorithm**
+- Tracks experiments using **MLflow**
+- Saves trained model for deployment
+- Evaluates model using ROC-AUC and Average Precision
 
 
-Open: http://localhost:8501
+## 📊 Dataset
 
-📊 Output
-True fraud ratio      : 0.00173
-Detected anomaly ratio: 0.00170
+- Dataset: Credit Card Fraud Detection Dataset
+- Features: PCA-transformed transaction features (V1–V28)
+- Target: Class
+  - 0 → Normal transaction
+  - 1 → Fraud transaction
 
-👩‍💻 Author
 
-Anushka Pal
-Aspiring Data Scientist
+## 🧠 Model Used
+
+### IsolationForest
+- Unsupervised anomaly detection algorithm
+- Learns normal transaction patterns
+- Flags anomalies as fraud
+
+## ⚙️ Workflow
+
+1. Load dataset
+2. Train-test split
+3. Preprocessing (Scaling + Imputation)
+4. Train IsolationForest model
+5. Generate anomaly scores
+6. Convert scores → fraud predictions
+7. Evaluate model
+8. Log results in MLflow
+
+## 📈 Evaluation Metrics
+
+- ROC-AUC Score: **0.95**
+- Average Precision Score: **0.17**
+- Confusion Matrix:
+  - TN: 56797
+  - FP: 67
+  - FN: 68
+  - TP: 30
+
+## 📦 Tech Stack
+
+- Python
+- Pandas, NumPy
+- Scikit-learn
+- MLflow
+- Joblib
+- Docker (optional)
+
