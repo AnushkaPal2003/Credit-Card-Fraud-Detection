@@ -16,13 +16,13 @@ from sklearn.metrics import (
 import mlflow
 import joblib
 
-#LOAD DATA 
+# load data
 df = pd.read_csv("creditcard.csv")
 
 X = df.drop("Class", axis=1)
 y = df["Class"]
 
-# TRAIN-TEST SPLIT
+# train test split
 X_train, X_test, y_train, y_test = train_test_split(
     X, y,
     test_size=0.2,
@@ -30,7 +30,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     stratify=y
 )
 
-# PIPELINE 
+# build pipeline
 pipeline = Pipeline(steps=[
     ("imputer", SimpleImputer(strategy="median")),
     ("scaler", StandardScaler()),
@@ -41,63 +41,67 @@ pipeline = Pipeline(steps=[
     ))
 ])
 
-# TRAIN
+# train model
 pipeline.fit(X_train)
 
-#  PREDICT (SCORES)
+# predict scores
 scores = pipeline.decision_function(X_test)
 
-
-threshold = np.percentile(scores, 0.17)   # based on contamination
+# set threshold
+threshold = np.percentile(scores, 0.17)
 y_pred = (scores < threshold).astype(int)
 
-# METRICS
+# evaluate model
 print("\nConfusion Matrix")
-print(confusion_matrix(y_test, y_pred))
+cm = confusion_matrix(y_test, y_pred)
+print(cm)
 
 print("\nClassification Report")
 print(classification_report(y_test, y_pred, digits=4))
 
 roc_auc = roc_auc_score(y_test, -scores)
-print(f"\nROC-AUC Score: {roc_auc:.4f}")
-
-
 ap_score = average_precision_score(y_test, -scores)
+
+print(f"\nROC-AUC Score: {roc_auc:.4f}")
 print(f"Average Precision Score: {ap_score:.4f}")
 
-# FRAUD RATIO 
-print("\nFraud Ratio Analysis")
-print(f"True fraud ratio      : {y_test.mean():.6f}")
-print(f"Detected anomaly ratio: {y_pred.mean():.6f}")
+# fraud ratio analysis
+true_ratio = y_test.mean()
+detected_ratio = y_pred.mean()
 
-# SAVE MODEL 
+print("\nFraud Ratio Analysis")
+print(f"True fraud ratio      : {true_ratio:.6f}")
+print(f"Detected anomaly ratio: {detected_ratio:.6f}")
+
+# save model
 joblib.dump(pipeline, "model.pkl")
 
-# MLflow TRACKING 
+# mlflow tracking
 mlflow.set_experiment("Credit Card Fraud Detection")
 
 with mlflow.start_run():
 
-    # Params
+    # log parameters
     mlflow.log_param("model", "IsolationForest")
     mlflow.log_param("n_estimators", 200)
     mlflow.log_param("contamination", 0.0017)
     mlflow.log_param("threshold_percentile", 0.17)
 
-    # Metrics
+    # log metrics
     mlflow.log_metric("roc_auc", roc_auc)
     mlflow.log_metric("avg_precision", ap_score)
+    mlflow.log_metric("true_fraud_ratio", true_ratio)
+    mlflow.log_metric("detected_anomaly_ratio", detected_ratio)
 
-    # Confusion Matrix values
-    cm = confusion_matrix(y_test, y_pred)
+    # confusion matrix
     mlflow.log_metric("TN", cm[0][0])
     mlflow.log_metric("FP", cm[0][1])
     mlflow.log_metric("FN", cm[1][0])
     mlflow.log_metric("TP", cm[1][1])
 
-    # Save model artifact
+    # save artifact
     mlflow.log_artifact("model.pkl")
 
-    print("\n Model logged successfully in MLflow")
+    print("\nModel logged successfully in MLflow")
 
-print("\n Training & Evaluation Complete")
+print("\nTraining & Evaluation Complete")
